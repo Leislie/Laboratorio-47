@@ -1,0 +1,74 @@
+---
+title: "Laboratorio47-MD"
+author: "Leislie R. Manjarrez O."
+date: "2023-03-14"
+output: html_document
+---
+
+Hecho con gusto por Leislie R. Manjarrez O.
+
+Laboratorio 47- Grafico de barras con ggplot2
+
+Instalar paqueterias
+install.packages("gapminder")
+install.packages("ggplot2")
+
+Llamar la librerias
+```{r}
+library(gapminder)
+library(ggplot2)
+```
+
+Cargar los datos al entorno
+```{r}
+data("gapminder")
+```
+
+Filtrado por año 2007
+```{r}
+gapminder2007 <- gapminder[gapminder$year == '2007',]
+```
+
+Crear un grafico de barras horizontal
+```{r}
+ggplot(data = gapminder2007,
+       mapping = aes(x = factor(continent))) +
+  geom_bar()
+```
+
+Crear un grafico de barras vertical
+```{r}
+ggplot(data = gapminder2007,
+       mapping = aes(x = factor(continent))) +
+  geom_bar()+
+  coord_flip()
+```
+
+Creando una etiqueta para expectativa de vida
+```{r}
+gapminder2007$lifeExp <- ifelse(
+  gapminder2007$lifeExp <50, "poca",
+  ifelse(gapminder2007$lifeExp <70, "media","alta"))
+```
+
+Crear un objeto que guarde la variable
+```{r}
+p <- ggplot(data = gapminder2007,
+            mapping = aes(x = factor(continent),
+                          fill = lifeExp))
+```
+
+Graficar el objeto p en una grafica de barras apilada
+```{r}
+p + geom_bar(position = "stack", stat = "count")
+```
+
+Graficar el objeto p en una grafica de barras separada
+```{r}
+p + geom_bar(position = "dodge", stat = "count")
+```
+
+Graficar el objeto p en una grafica de barras considerando el 100%
+```{r}
+p + geom_bar(position = "fill", stat = "count")
+```
